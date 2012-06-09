@@ -26,3 +26,12 @@ format_quote = (msg, quote, symbol) ->
   # "$name last $date $time: $current $change [$pct%] ($min - $max) " . "[Open $open] Vol $volume"
   fmtquote = "#{quote[0]} last #{quote[2]} #{quote[3]}: #{quote[1]} #{quote[4]} [#{pct.toFixed(3)}%] (#{quote[6]} - #{quote[7]}) [Open #{quote[5]}] Vol #{quote[8]}"
   msg.send fmtquote.replace(/"/g,'')
+
+format_number = (number) ->
+  asstring = number + ''
+  fmtnumber = ''
+  for i in [asstring.length-1..0]
+    if i % 3 == 0 && asstring.length - i > 0
+      fmtnumber = ',' + fmtnumber
+    fmtnumber = asstring[i] + fmtnumber
+  return fmtnumber
