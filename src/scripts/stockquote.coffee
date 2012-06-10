@@ -38,8 +38,9 @@ format_quote = (msg, quote, symbol) ->
 format_number = (number) ->
   asstring = number + ''
   fmtnumber = ''
-  for i in [asstring.length-1..0]
-    if i % 3 == 0 && asstring.length - i > 0
-      fmtnumber = ',' + fmtnumber
+  i = asstring.length
+  while i--
     fmtnumber = asstring[i] + fmtnumber
+    if (asstring.length - i) % 3 == 0 && asstring.length - i > 0
+      fmtnumber = ',' + fmtnumber
   return fmtnumber
