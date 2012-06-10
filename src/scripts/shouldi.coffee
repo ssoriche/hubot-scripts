@@ -11,6 +11,7 @@ module.exports = (robot) ->
 
 parse_list = (choosefrom) ->
   parts = []
+  choosefrom = choosefrom.replace(/\?+$/,'')
   choosefrom = choosefrom.replace(/\s+or\s+/,',')
   choosefrom = choosefrom.replace(/\s+,/g,',')
   choosefrom = choosefrom.replace(/,\s+/g,',')
