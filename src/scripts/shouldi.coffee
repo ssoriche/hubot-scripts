@@ -7,7 +7,7 @@ module.exports = (robot) ->
   robot.respond /should i (.*)/i, (msg) ->
     choosefrom = msg.match[1]
     list = parse_list(choosefrom)
-    msg.send list[randomInt(0,list.length)]
+    msg.send list[randomInt(0,list.length - 1)]
 
 parse_list = (choosefrom) ->
   parts = []
