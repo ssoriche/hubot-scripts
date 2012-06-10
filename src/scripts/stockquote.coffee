@@ -16,7 +16,7 @@ module.exports = (robot) ->
         fmtquote = format_quote msg, quote, ticker
 
 parse_csv = (csv) ->
-  parts = csv.split ","
+  csv = csv.replace(/"/g,'').replace(/\r|\n/g,'')
 
 format_quote = (msg, quote, symbol) ->
   if quote[1] == 0.00
@@ -25,7 +25,7 @@ format_quote = (msg, quote, symbol) ->
   pct = (quote[4] / ( quote[1] - quote[4])) * 100
   # "$name last $date $time: $current $change [$pct%] ($min - $max) " . "[Open $open] Vol $volume"
   fmtquote = "#{quote[0]} last #{quote[2]} #{quote[3]}: #{quote[1]} #{quote[4]} [#{pct.toFixed(3)}%] (#{quote[6]} - #{quote[7]}) [Open #{quote[5]}] Vol #{quote[8]}"
-  msg.send fmtquote.replace(/"/g,'')
+  msg.send fmtquote
 
 format_number = (number) ->
   asstring = number + ''
