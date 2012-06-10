@@ -18,13 +18,21 @@ module.exports = (robot) ->
 parse_csv = (csv) ->
   csv = csv.replace(/"/g,'').replace(/\r|\n/g,'')
 
+  parts = {}
+  [ parts['name'],parts['current'],parts['date'],parts['time'],parts['change'],parts['open'],parts['min'],parts['max'],parts['volume']] = csv.split ","
+  console.log(parts)
+  return parts
+
 format_quote = (msg, quote, symbol) ->
-  if quote[1] == 0.00
+  if quote['current'] == 0.00
     msg.send "Unable to locate stock for #{symbol}"
 
-  pct = (quote[4] / ( quote[1] - quote[4])) * 100
+  pct = (quote['change'] / ( quote['current'] - quote['change'])) * 100
   # "$name last $date $time: $current $change [$pct%] ($min - $max) " . "[Open $open] Vol $volume"
-  fmtquote = "#{quote[0]} last #{quote[2]} #{quote[3]}: #{quote[1]} #{quote[4]} [#{pct.toFixed(3)}%] (#{quote[6]} - #{quote[7]}) [Open #{quote[5]}] Vol #{quote[8]}"
+  fmtquote = "#{quote['name']} last #{quote['date']} #{quote['time']}: "
+  fmtquote += "#{quote['current']} #{quote['change']} [#{pct.toFixed(3)}%] "
+  fmtquote += "(#{quote['min']} - #{quote['max']}) [Open #{quote['open']}] "
+  fmtquote += "Vol " + format_number(quote['volume'])
   msg.send fmtquote
 
 format_number = (number) ->
